@@ -9,7 +9,6 @@ import { PublicRoute } from './PublicRoute';
 import { useAuth } from 'hooks';
 import { fetchCurrentUser } from 'redux/auth/authOperations';
 
-// const HomePage = lazy(() => import('pages/HomePage'));
 const RegisterPage = lazy(() => import('pages/RegisterPage'));
 const LoginPage = lazy(() => import('pages/LoginPage'));
 const Contacts = lazy(() => import('pages/Contacts'));
