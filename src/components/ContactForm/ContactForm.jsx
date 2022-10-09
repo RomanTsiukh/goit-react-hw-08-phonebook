@@ -1,47 +1,55 @@
-import { Formik, ErrorMessage, Form, Field } from 'formik';
-import { object, string } from 'yup';
-import { Notify } from 'notiflix';
-import PropTypes from 'prop-types';
-import { ButtonAddContact, Error } from './ContactForm.styled';
-import { Box } from '../Box';
+import { Formik, Form, ErrorMessage, Field } from 'formik';
+import {
+  useGetContactsQuery,
+  useAddContactMutation,
+} from 'redux/contactsSlice';
+import { toast } from 'react-toastify';
+import Loader from 'components/Loader';
+import { nameError, numberError, schema } from 'constants';
+import { Error, ButtonAddContact } from './ContactForm.styled';
+import { Box } from '@mui/system';
 
-export const NAME_MATCH =
-  "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
+const ContactForm = () => {
+  const { data: contacts } = useGetContactsQuery();
+  const [addContact, { isLoading }] = useAddContactMutation();
 
-export const nameError = 'Invalid name';
-export const nameNumber = 'Invalid number';
-export const requiredError = 'This field is required';
-export const SignupSchema = object().shape({
-  name: string()
-    .required(requiredError)
-    .matches(
-      "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$",
-      nameError
-    ),
-  phone: string()
-    .required(requiredError)
-    .matches(
-      /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
-      nameNumber
-    ),
-});
+  const handleSubmit = async e => {
+    try {
+      e.preventDefault();
+      const form = e.currentTarget.elements;
+      const name = form.name.value;
+      const number = form.number.value;
 
-export const FormError = ({ name }) => {
-  return (
-    <ErrorMessage name={name} render={message => Notify.failure(message)} />
-  );
-};
+      const matcheContactName = contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      );
+      const newContact = {
+        name,
+        number,
+      };
 
-const ContactForm = ({ onSubmit }) => {
+      if (matcheContactName) {
+        toast.warn(`Sorry, ${name} is already in your contacts!`);
+        return;
+      } else {
+        await addContact(newContact);
+        toast.success('The contact is added to the list');
+        e.target.reset();
+      }
+    } catch (error) {
+      toast.error('Something is wrong. Try again!');
+    }
+  };
+
   return (
     <Formik
       initialValues={{
         name: '',
         phone: '',
       }}
-      validationSchema={SignupSchema}
+      validationSchema={schema}
     >
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Box
           display="flex"
           justifyContent="space-between"
@@ -70,17 +78,14 @@ const ContactForm = ({ onSubmit }) => {
         </Box>
         <ErrorMessage
           name="number"
-          render={msg => <Error>{nameNumber}</Error>}
+          render={msg => <Error>{numberError}</Error>}
         />
-        <ButtonAddContact type="submit">Add contact</ButtonAddContact>
+        <ButtonAddContact type="submit">
+          {isLoading ? <Loader /> : 'Add contact'}
+        </ButtonAddContact>
       </Form>
     </Formik>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  isPosting: PropTypes.bool,
 };
 
 export default ContactForm;

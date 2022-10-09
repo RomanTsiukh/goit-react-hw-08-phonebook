@@ -1,4 +1,6 @@
-export const theme = {
+import { createTheme } from '@mui/material';
+
+export const theme = createTheme({
   colors: {
     bodyBgColor: 'green',
     firstBgColor: '#5cb3ed',
@@ -8,23 +10,18 @@ export const theme = {
   space: [0, 2, 4, 8, 16, 32, 64, 128, 256],
   fonts: {
     body: 'system-ui, sans-serif',
-    heading: 'system-ui, sans-serif',
     monospace: 'Menlo, monospace',
   },
   fontSizes: {
     xs: '12px',
     s: '14px',
     m: '16px',
-    l: '32px',
-    xl: '64px',
+    l: '24px',
+    xl: '32px',
   },
   fontWeights: {
     normal: 400,
     bold: 700,
-  },
-  lineHeights: {
-    body: 1.5,
-    heading: 1.125,
   },
   borders: {
     none: 'none',
@@ -37,4 +34,8 @@ export const theme = {
     lg: '16px',
     round: '50%',
   },
-};
+  transition: {
+    color: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+    all: 'all 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+});

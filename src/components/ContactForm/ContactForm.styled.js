@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 
 export const Error = styled.div`
-  margin-left: 90px;
-  margin-top: ${p => p.theme.space[3]}px;
-  margin-bottom: ${p => p.theme.space[3]}px;
-  color: ${p => p.theme.colors.offlineColor};
-  font-weight: ${p => p.theme.fontWeights.bold};
+  margin-bottom: ${p => p.theme.space[4]}px;
+  font-size: ${p => p.theme.fontSizes.s};
+  font-weight: ${p => p.theme.fontWeights.normal};
+  color: ${p => p.theme.colors.accent};
 `;
 
 export const ButtonAddContact = styled.button`
