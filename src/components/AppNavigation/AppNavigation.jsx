@@ -6,6 +6,9 @@ const AppNavigation = () => {
 
   return (
     <Navigation>
+      <Link to="/" end>
+        Home
+      </Link>
       {isLoggedIn && <Link to="/contacts">Contacts</Link>}
     </Navigation>
   );

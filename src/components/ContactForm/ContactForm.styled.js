@@ -22,7 +22,6 @@ export const ButtonAddContact = styled.button`
     transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
   :hover {
     background-color: ${p => p.theme.colors.hoverBgColor};
-    color: ${p => p.theme.colors.thirdTextColor};
     transform: scale(1.1);
   }
 `;

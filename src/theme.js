@@ -4,6 +4,7 @@ export const theme = createTheme({
   colors: {
     bodyBgColor: 'green',
     firstBgColor: '#5cb3ed',
+    accent: 'green',
     hoverBgColor: '#795ced',
     thirdDgColor: 'rgb(114, 185, 229)',
   },
