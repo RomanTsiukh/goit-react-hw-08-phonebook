@@ -29,7 +29,6 @@ export const App = () => {
       ) : (
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<RegisterPage />} />
             <Route
               path="/contacts"
               element={
@@ -45,6 +44,7 @@ export const App = () => {
                 />
               }
             />
+
             <Route
               path="/login"
               element={
